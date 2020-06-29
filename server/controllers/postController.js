@@ -57,4 +57,15 @@ postController.deletePost = (req, res, next) => {
   return next();
 };
 
+postController.searchPosts = (req, res, next) => {
+  const getSearchQuery = `SELECT * FROM post WHERE (post LIKE '${req.body}')`;
+
+  db.query(getSearchQuery)
+    .then((data) => {
+      res.locals.results = data.rows;
+      return next();
+    })
+    .catch((err) => console.log(err));
+};
+
 module.exports = postController;

@@ -104,6 +104,10 @@ app.delete("/deletepost", postController.deletePost, (req, res) => {
   res.status(200).json({}); // see what we have to send back
 });
 
+app.post("/search", postController.searchPosts, (req, res) => {
+  res.status(200).json(res.locals.results);
+});
+
 app.get("/logout", (req, res) => {
   req.session = null;
   res.redirect("/");
