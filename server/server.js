@@ -87,12 +87,10 @@ app.post("/register", userController.createUser, (req, res) => {
 });
 
 app.post("/login", userController.verifyUser, (req, res) => {
-  console.log("*************** USERCONTROLLER ***************", req.body);
   res.status(200).json(res.locals.login);
 });
 
 app.get("/posts", postController.getAllPosts, (req, res) => {
-  console.log("*******************", res.locals.allPosts);
   res.status(200).json(res.locals.allPosts);
 });
 
@@ -108,7 +106,7 @@ app.post("/search", postController.searchPosts, (req, res) => {
   res.status(200).json(res.locals.results);
 });
 
-app.get("/retrievequestions", postController.getOnePost, (req, res) => {
+app.post("/retrievequestions", postController.getOnePost, (req, res) => {
   res.status(200).json(res.locals.onePosts);
 });
 
