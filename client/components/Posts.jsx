@@ -9,13 +9,13 @@ const Posts = (props) => {
         {props.posts.map((post) => {
           return (
             <Post
-              username={post.username_id}
+              key={post.post_id}
+              username={post.user_id}
               question={post.question}
               content={post.content}
               categories={post.categories_id}
               resolved={post.resolved}
               date={post.date_created}
-              key={post.post_id}
             />
           );
         })}

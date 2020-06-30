@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Search from "./Search.jsx";
 import Posts from "./Posts.jsx";
+import Admin from './Admin.jsx';
 import { Link, Switch, Route } from "react-router-dom";
 import Modal from "./Modal.jsx";
 
@@ -40,6 +41,7 @@ class View extends Component {
             path="/main"
           />
           <Route component={Modal} path="/createpost" />
+          <Route component={Admin} path="/admin" />
         </Switch>
         <Link to="/createpost">
           <button id="create-btn">+</button>
