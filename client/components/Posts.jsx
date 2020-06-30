@@ -12,8 +12,8 @@ const Posts = (props) => {
               key={post.post_id}
               username={post.user_id}
               question={post.question}
-              content={post.content}
-              categories={post.categories_id}
+              detail={post.detail}
+              category_id={post.category_id}
               resolved={post.resolved}
               date={post.date_created}
             />

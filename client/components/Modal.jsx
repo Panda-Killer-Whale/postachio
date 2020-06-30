@@ -1,83 +1,89 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import axios from "axios";
 
-class Modal extends Component {
-  constructor() {
-    super();
+const Modal = (props) => {
 
-    const date = new Date();
 
-    this.state = {
-      questionTitle: "",
-      questionContent: "",
-      unit: "",
-      resolved: false,
-      dateCreated: date.toLocaleString(),
-    };
+  // class Modal extends Component {
+  // constructor() {
+  //   super();
 
-    this.handleQuestionTitleChange = this.handleQuestionTitleChange.bind(this);
-    this.handleQuestionContentChange = this.handleQuestionContentChange.bind(
-      this
-    );
-    this.handleUnitChange = this.handleUnitChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  //   const date = new Date();
+
+  //   this.state = {
+  //     questionTitle: "",
+  //     questionContent: "",
+  //     unit: "",
+  //     resolved: false,
+  //     dateCreated: date.toLocaleString(),
+  //   };
+
+  //   this.handleQuestionTitleChange = this.handleQuestionTitleChange.bind(this);
+  //   this.handleQuestionContentChange = this.handleQuestionContentChange.bind(this);
+  //   this.handleUnitChange = this.handleUnitChange.bind(this);
+  //   this.handleSubmit = this.handleSubmit.bind(this);
+  // }
+  // how do we pass the login _id as props to match this user_id from the post table? 
+  const [userID, setUserId] = useState(0); 
+  const [question, setQuestion] =  useState("");
+  const [detail, setDetail] = useState("");
+  const [category_id, setCategory_id] = useState(0);
+  const[resolved, setResolved] = useState(Boolean);
+  const [dateCreated , setDateCreated] = useState(""); 
+  
+ const handleQuestionTitleChange = (e) => {
+     setQuestion(e.target.value)
+    }
+    
+ const handleQuestionDetailChange = (e) => {
+      setDetail(e.target.value)
+  }
+ const handleCategoryChange = (e) => {
+      setCategory_id(e.target.value)
   }
 
-  handleQuestionTitleChange(e) {
-    this.setState({
-      questionTitle: e.target.value,
-    });
-  }
-
-  handleQuestionContentChange(e) {
-    this.setState({
-      questionContent: e.target.value,
-    });
-  }
-
-  handleUnitChange(e) {
-    this.setState({
-      unit: e.target.value,
-    });
-  }
-
-  handleSubmit(e) {
+  const postButton = e => {
     e.preventDefault();
 
-    const { questionTitle, questionContent, unit } = this.state;
-
-    const post = {
-      questionTitle,
-      questionContent,
-      unit,
-      resolved,
-      dateCreated,
-    };
-
-    axios
-      .post("/createpost", post)
-      .then((res) => {
-        console.log(res.data);
+    fetch(`/createpost`, {
+      method: "POST",
+      body: JSON.stringify({
+        user_id: 3,  //props from 
+        // user_id: userID,  //props from 
+        question: question,
+        detail: detail,
+        // category_id: category_id,
+        category_id: 2,
+        // resolved: resolved,
+        resolved: false,
+        // date_created: dateCreated
+        date_created: '06-29-2020'
+        }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then(res => {
+        return res.json();
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then(data => {
+        console.log(`add data ${data}`);
+      })
+      .catch(err => console.log(`add fetch error ${err}`));
   }
 
-  render() {
+
     return (
       <div>
         <div id="Modal">
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={postButton}>
             <input
-              id="question-title"
-              onChange={this.handleQuestionTitleChange}
+              id="question-title" 
+              onChange={handleQuestionTitleChange}
             />
             <input
               id="question-content"
-              onChange={this.handleQuestionContentChange}
+              onChange={handleQuestionDetailChange}
             />
-            <select onInputChange={this.handleUnitChange}>
+            <select onInputChange={handleCategoryChange}>
               <option value="Unit 1">Unit 1: JS Fundamentals</option>
               <option value="Unit 2">
                 Unit 2: Data Structures and Algorithms
@@ -100,7 +106,47 @@ class Modal extends Component {
         </div>
       </div>
     );
-  }
+  
 }
 
 export default Modal;
+
+
+
+  // const [userID, setUserId] = useState(0);
+  // const [question, setQuestion] =  useState("");
+  // const [detail, setDetail] = useState("");
+  // const [category_id, setCategory_id] = useState(0);
+  // const[resolved, setResolved] = useState(Boolean);
+  // const [dateCreated , setDateCreated] = useState(""); 
+
+  // const handleChange = e => {
+  //   // console.log(e.target.value, 'changed');
+  //   setUserId(e.target.value);
+  //   // console.log(`userID ${userID}`);
+  // };
+  
+  // const onClick = e => {
+    
+  //   console.log(stickyNote);
+
+  //   fetch(`./createpost`,{
+  //         method: 'POST', 
+  //         body: JSON.stringify({
+  //           user_id: userID,
+  //           question: question,
+  //           detail: detail,
+  //           category_id: category_id,
+  //           resolved: resolved,
+  //           date_created: dateCreated,
+  //         }),
+  //         headers: {
+  //             'Content-Type': 'application/json',
+  //         },
+  //         }).then((res) => {
+  //           return res.json()
+  //         }).then((data)=> {
+  //           console.log(data);
+  //           return data;
+  //         }).catch(err => console.log(`createNote error ${err}`));
+  //       };

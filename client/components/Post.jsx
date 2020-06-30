@@ -5,7 +5,7 @@ const Post = (props) => {
   return (
     <div>
       <Link to="/QA">
-        <div id="Post" postid={props.post_id}>
+        <div id="Post" postid={props.user_id}>
           <div id="post-username">{props.username}</div>
           <br />
           <label id="questionlabel">Question: </label>
