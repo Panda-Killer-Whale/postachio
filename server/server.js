@@ -97,7 +97,7 @@ app.get("/posts", postController.getAllPosts, (req, res) => {
 });
 
 app.post("/createpost", postController.createPost, (req, res) => {
-  res.status(200).json({});
+  res.status(200).json(res.locals);
 });
 
 app.delete("/deletepost", postController.deletePost, (req, res) => {
