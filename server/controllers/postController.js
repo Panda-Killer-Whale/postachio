@@ -2,7 +2,7 @@ const db = require("../models/sqlModel.js");
 
 const postController = {};
 // NOTE: the user_id needs to match the login _id from the login table. JOIN query? 
-postController.createPost = (req, res, next) => {   
+postController.createPost = (req, res, next) => {
   const addPostQuery = `INSERT INTO post (user_id, question, detail,        
      category_id, resolved, date_created) 
       VALUES ($1, $2, $3, $4, $5, $6)`;
@@ -17,28 +17,28 @@ postController.createPost = (req, res, next) => {
 
 
 
-/*
-  INSERT INTO post( username_id, question, detail, categories_id ,resolved, date_created) 
-  VALUES('user1','ASK A QUESTION','WHERE MESSAGE WILL SHOW','UNIT NUMBER',true,'2020-07-01')
-   
-  const values = [
-          user123,
-          "When should I use a JWT?",
-          "There are a lot of arguments both for and against the use of JWTs.  Critics of JWTs often point to certain security vulnerabilities that session cookies do not have.  It is also a lot harder to revoke JWTs than it is do delete a cookie.",
-          "Unit 11",
-          true,
-          "2020-06-01",
-    ];
-*/
+  /*
+    INSERT INTO post( username_id, question, detail, categories_id ,resolved, date_created) 
+    VALUES('user1','ASK A QUESTION','WHERE MESSAGE WILL SHOW','UNIT NUMBER',true,'2020-07-01')
+     
+    const values = [
+            user123,
+            "When should I use a JWT?",
+            "There are a lot of arguments both for and against the use of JWTs.  Critics of JWTs often point to certain security vulnerabilities that session cookies do not have.  It is also a lot harder to revoke JWTs than it is do delete a cookie.",
+            "Unit 11",
+            true,
+            "2020-06-01",
+      ];
+  */
   db.query(addPostQuery, values)
-  //.then((data) => {
-  // 
-  //  res.locals = data.rows[0]; 
-  //  console.log( 'DATA.ROWS[0] FROM addPostQuery' , data.rows[0]);
-  //  console.log('VALUES' , values);
-  //  return next();
-  //})
-  .catch((err) => console.log(err));
+    //.then((data) => {
+    // 
+    //  res.locals = data.rows[0]; 
+    //  console.log( 'DATA.ROWS[0] FROM addPostQuery' , data.rows[0]);
+    //  console.log('VALUES' , values);
+    //  return next();
+    //})
+    .catch((err) => console.log(err));
 
   //console.log(db.query(addPostQuery, values));
 
@@ -47,9 +47,9 @@ postController.createPost = (req, res, next) => {
 
 
 postController.getAllPosts = (req, res, next) => {
-  const getAllPostsQuery = 
-  `
-  SELECT post.id, login.username, post.question, categories.category, post.resolved, post.date_created
+  const getAllPostsQuery =
+    `
+  SELECT post.id, post.user_id, login.username, post.question, post.detail, categories.category, post.resolved, post.date_created
   FROM login
   LEFT JOIN post
   ON login.id = post.user_id
@@ -59,6 +59,7 @@ postController.getAllPosts = (req, res, next) => {
 
   db.query(getAllPostsQuery)
     .then((data) => {
+      console.log(`*************GARRET BRIAN JEHO************* ${data.rows}`);
       res.locals.allPosts = data.rows;
       return next();
     })
@@ -66,14 +67,14 @@ postController.getAllPosts = (req, res, next) => {
 };
 
 postController.deletePost = (req, res, next) => {
- const deletePostQuery = `DELETE FROM post WHERE _id=${req.body.id}`;
- db(deletePostQuery)
-   .then((data) => {
-     console.log(data);
-   })
-   .catch((err) => console.log(err));
+  const deletePostQuery = `DELETE FROM post WHERE _id=${req.body.id}`;
+  db(deletePostQuery)
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((err) => console.log(err));
 
- return next();
+  return next();
 };
 
 postController.searchPosts = (req, res, next) => {
@@ -88,14 +89,15 @@ postController.searchPosts = (req, res, next) => {
 };
 
 postController.getOnePost = (req, res, next) => {
-  const getOneQuery = 
-  `
+  console.log("INSIDE GET ONE POST GARRETT JEHO BRIAN", req);
+  const getOneQuery =
+    `
   SELECT login.username, post.question, post.detail, categories.category, post.resolved, post.date_created
   FROM login
   LEFT JOIN post
   ON login.id = post.user_id
   LEFT JOIN categories
-  ON post.category_id = categories.id WHERE post.id=${req.params.postid}
+  ON post.category_id = categories.id WHERE post.id=${req.body.postid}
   `;
 
   db.query(getOneQuery)
@@ -108,13 +110,13 @@ postController.getOnePost = (req, res, next) => {
 };
 
 postController.getResponse = (req, res, next) => {
-  const getOneResponse = 
-  `
+  const getOneResponse =
+    `
   SELECT login.username, response.response_body, response.date_created, response.top_answer
   FROM login
   LEFT JOIN response
   ON login.id = response.user_id
-  WHERE post.id=${req.params.postid}
+  WHERE post.id=${req.body.postid}
   `;
 
   db.query(getOneResponse)

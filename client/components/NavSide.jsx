@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import axios from 'axios';
 
 class navSide extends Component {
   constructor(props) {
@@ -9,6 +10,28 @@ class navSide extends Component {
 
   loadCategories() {
     // Add code here.
+    const categoriesMenuItems = [];
+
+    axios.get('/loadcategories')
+    .then(res => {
+      const categories = res.data;
+
+      for (let i = 0; i < categories.length; i++) {
+        categoriesMenuItems.push(
+        <div class="sidemenu-items">
+          <a href="#">
+            <li>{categories[i]}</li>
+          </a>
+        </div>
+        );
+      };
+    })
+    .catch((err) => {
+      console.log(err);
+      return;
+    });
+
+    return categoriesMenuItems;
   };
 
   render() {
