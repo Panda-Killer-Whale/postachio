@@ -13,23 +13,23 @@ class navSide extends Component {
     const categoriesMenuItems = [];
 
     axios.get('/loadcategories')
-    .then(res => {
-      const categories = res.data;
+      .then(res => {
+        const categories = res.data;
 
-      for (let i = 0; i < categories.length; i++) {
-        categoriesMenuItems.push(
-        <div class="sidemenu-items">
-          <a href="#">
-            <li>{categories[i]}</li>
-          </a>
-        </div>
-        );
-      };
-    })
-    .catch((err) => {
-      console.log(err);
-      return;
-    });
+        for (let i = 0; i < categories.length; i++) {
+          categoriesMenuItems.push(
+            <div class="sidemenu-items">
+              <a href="#">
+                <li>{categories[i]}</li>
+              </a>
+            </div>
+          );
+        };
+      })
+      .catch((err) => {
+        console.log(err);
+        return;
+      });
 
     return categoriesMenuItems;
   };

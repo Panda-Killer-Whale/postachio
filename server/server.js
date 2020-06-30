@@ -88,6 +88,7 @@ app.post("/register", userController.createUser, (req, res) => {
 
 app.post("/login", userController.verifyUser, (req, res) => {
   res.status(200).json(res.locals.login);
+
 });
 
 app.get("/posts", postController.getAllPosts, (req, res) => {
