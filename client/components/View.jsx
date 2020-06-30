@@ -41,7 +41,7 @@ class View extends Component {
                   component={() => <Posts posts={this.state.posts} />}
                   path="/main"
                 />
-                <Route path="/createpost" component={Modal} 
+                <Route path="/createpost" component={() => <Modal posts={this.state.posts} />} 
                 />
               </Switch>
               <Link to="/createpost">

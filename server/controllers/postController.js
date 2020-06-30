@@ -47,17 +47,20 @@ postController.createPost = (req, res, next) => {
 
 
 postController.getAllPosts = (req, res, next) => {
-  const getAllPostsQuery = //`SELECT user, question , detail , category_id , 
-                // resolved , date_created 
-                // FROM Post 
-                // LEFT JOIN Login
-                // WHERE Login._id = user_id`;
-                `SELECT * FROM "public"."post" LIMIT 100`;
+  const getAllPostsQuery = 
+  `
+  SELECT post.id, login.username, post.question, categories.category, post.resolved, post.date_created
+  FROM login
+  LEFT JOIN post
+  ON login.id = post.user_id
+  LEFT JOIN categories
+  ON post.category_id = categories.id
+  `;
 
   db.query(getAllPostsQuery)
     .then((data) => {
       res.locals.allPosts = data.rows;
-      next();
+      return next();
     })
     .catch((err) => console.log(err));
 };
@@ -71,6 +74,56 @@ postController.deletePost = (req, res, next) => {
    .catch((err) => console.log(err));
 
  return next();
+};
+
+postController.searchPosts = (req, res, next) => {
+  const getSearchQuery = `SELECT * FROM post WHERE (post LIKE '${req.body.value}')`;
+
+  db.query(getSearchQuery)
+    .then((data) => {
+      res.locals.results = data.rows;
+      return next();
+    })
+    .catch((err) => console.log(err));
+};
+
+postController.getOnePost = (req, res, next) => {
+  const getOneQuery = 
+  `
+  SELECT login.username, post.question, post.detail, categories.category, post.resolved, post.date_created
+  FROM login
+  LEFT JOIN post
+  ON login.id = post.user_id
+  LEFT JOIN categories
+  ON post.category_id = categories.id WHERE post.id=${req.params.postid}
+  `;
+
+  db.query(getOneQuery)
+    .then((data) => {
+      console.log('getONEquery:', data.row)
+      res.locals.onePosts = data.rows;
+      return next();
+    })
+    .catch((err) => console.log(err));
+};
+
+postController.getResponse = (req, res, next) => {
+  const getOneResponse = 
+  `
+  SELECT login.username, response.response_body, response.date_created, response.top_answer
+  FROM login
+  LEFT JOIN response
+  ON login.id = response.user_id
+  WHERE post.id=${req.params.postid}
+  `;
+
+  db.query(getOneResponse)
+    .then((data) => {
+      console.log('getoneResponse:', data.rows)
+      res.locals.oneResponse = data.rows;
+      return next();
+    })
+    .catch((err) => console.log(err));
 };
 
 module.exports = postController;
