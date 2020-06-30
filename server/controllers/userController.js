@@ -18,9 +18,10 @@ userController.verifyUser = (req, res, next) => {
   });
 };
 
+
 userController.createUser = (req, res, next) => {
-  const createUserQuery = `INSERT INTO login (username, password, email) VALUES ($1, $2, $3)`;
-  const values = [req.body.username, req.body.password, req.body.email];
+  const createUserQuery = `INSERT INTO login (username, password, email,admin) VALUES ($1, $2, $3)`;
+  const values = [req.body.username, req.body.password, req.body.email,req.body.admin];
 
   db.query(createUserQuery, values).catch((err) => console.log(err));
 

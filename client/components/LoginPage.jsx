@@ -56,6 +56,7 @@ class LoginPage extends Component {
     });
   };
 
+
   render() {
     if (this.state.isLoggedIn) {
       return <Redirect to="/main" />;
@@ -103,9 +104,14 @@ class LoginPage extends Component {
             <button onSubmit={this.handleSubmit} id="login-btn">
               Login
             </button>
-            <a href="#" id="register">
+            <Link to="/signup">
+              <button id="register-btn">
+                Register
+              </button>
+            </Link>
+            {/* <a href="#" id="register">
               Register
-            </a>
+            </a> */}
           </div>
         </form>
       </div>

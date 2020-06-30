@@ -97,7 +97,7 @@ button {
   background-color: black;
   border: none;
   color: white;
-  width: 30%;
+  width: 50%;
   margin-right: 15px;
   vertical-align: middle;
 
@@ -119,3 +119,24 @@ button {
     color: darkgray;
   }
 }
+
+.register-box {
+    position: fixed;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas: 
+    "username-label username-input"
+    "password-label password-input"
+    "email-label email-input"
+    "admin-label admin-input"
+    "login .";
+    width: 250px;
+    height: 150px;
+    top: 50%;
+    left: 50%;
+    margin-top: -75px;
+    margin-left: -125px;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 4px;
+  }
