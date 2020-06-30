@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 
-class Search {
+class Search extends Component {
   constructor(props) {
     super(props);
 
@@ -17,11 +17,13 @@ class Search {
   };
 
   search() {
-    const searchQuery = this.state.search;
+    const searchQuery = { value: this.state.search };
+    console.log(searchQuery);
     axios.post('/search', searchQuery)
     .then((res) => {
       // Add search functionality here
-
+      const searchResults = res.data;
+      console.log(searchResults);
     })
     .catch(() => console.log('yo this search is fucked up'));
   };

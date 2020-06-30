@@ -15,6 +15,7 @@ class App extends Component {
 
     this.state = {
       isLoggedIn: false,
+      admin: false
     };
   }
 
@@ -29,6 +30,17 @@ class App extends Component {
   }
 
   render() {
+    if (this.state.isLoggedIn) {
+      return (
+        <Switch>
+          <Route component={Main} path="/main" />
+          <Route component={Register} path="/signup" />
+          <Route exact path="/">
+            <Redirect to="/main" />
+          </Route>
+        </Switch>
+      );
+    }
     if (this.state.isLoggedIn) {
       return (
         <Switch>

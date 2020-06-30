@@ -108,6 +108,16 @@ app.post("/search", postController.searchPosts, (req, res) => {
   res.status(200).json(res.locals.results);
 });
 
+app.get("/retrievequestions", postController.getOnePost, (req, res) => {
+  res.status(200).json(res.locals.onePosts);
+});
+
+app.get("/loadresponses", postController.getResponse, (req, res) => {
+  res.status(200).json(res.locals.oneResponse);
+});
+
+
+
 app.get("/logout", (req, res) => {
   req.session = null;
   res.redirect("/");
