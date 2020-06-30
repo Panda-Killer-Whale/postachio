@@ -40,7 +40,7 @@ import Post from "./Post.jsx";
 
 const Posts = (props) => {
   return (
-    <>
+    <div>
       <h1 id="posts-head">Posts</h1>
       <div id="post-container">
         {props.posts.map((post) => {
@@ -59,7 +59,7 @@ const Posts = (props) => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 

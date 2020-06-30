@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 const QA = props => {
-  console.log(props.currentPost);
+  
 
   return (
     <div>
@@ -10,7 +10,6 @@ const QA = props => {
     </div>
   );
 };
-
 
 
 // class QA extends Component {
