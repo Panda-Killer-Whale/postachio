@@ -89,7 +89,7 @@ postController.searchPosts = (req, res, next) => {
 };
 
 postController.getOnePost = (req, res, next) => {
-  console.log("INSIDE GET ONE POST GARRETT JEHO BRIAN", req);
+  // console.log("INSIDE GET ONE POST GARRETT JEHO BRIAN", req);
   const getOneQuery =
     `
   SELECT login.username, post.question, post.detail, categories.category, post.resolved, post.date_created
@@ -102,7 +102,7 @@ postController.getOnePost = (req, res, next) => {
 
   db.query(getOneQuery)
     .then((data) => {
-      console.log('getONEquery:', data.row)
+      // console.log('getONEquery:', data.row)
       res.locals.onePosts = data.rows;
       return next();
     })

@@ -1,4 +1,5 @@
 import React, { Component, useState } from "react";
+import { Link, Switch, useHistory, Route, BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
 
 const Modal = (props) => {
@@ -31,6 +32,7 @@ const Modal = (props) => {
   const[resolved, setResolved] = useState(Boolean);
   const [dateCreated , setDateCreated] = useState(""); 
   
+  
  const handleQuestionTitleChange = (e) => {
      setQuestion(e.target.value)
     }
@@ -39,25 +41,38 @@ const Modal = (props) => {
       setDetail(e.target.value)
   }
  const handleCategoryChange = (e) => {
-      setCategory_id(e.target.value)
+   console.log(e.target.value);
+      setCategory_id(parseInt(e.target.value))
+      
+
   }
 
+  let history = useHistory();
+  
   const postButton = e => {
     e.preventDefault();
+    // let currentDate = Date.prototype.toDateString()
+    const event = new Date();
+    const dateString = event.toLocaleString()
+    console.log(dateString);
+    
+    console.log(`category_id ${category_id}`);
+    
+
 
     fetch(`/createpost`, {
       method: "POST",
       body: JSON.stringify({
-        user_id: 3,  //props from 
+        user_id: 3,  //props from login
         // user_id: userID,  //props from 
         question: question,
         detail: detail,
         // category_id: category_id,
-        category_id: 2,
+        category_id: category_id, 
         // resolved: resolved,
         resolved: false,
         // date_created: dateCreated
-        date_created: '06-29-2020'
+        date_created:  dateString,
         }),
       headers: { "Content-Type": "application/json" },
     })
@@ -66,6 +81,7 @@ const Modal = (props) => {
       })
       .then(data => {
         console.log(`add data ${data}`);
+        history.push('/main')
       })
       .catch(err => console.log(`add fetch error ${err}`));
   }
@@ -78,35 +94,36 @@ const Modal = (props) => {
             <input
               id="question-title" 
               onChange={handleQuestionTitleChange}
-            />
+              />
             <input
               id="question-content"
               onChange={handleQuestionDetailChange}
-            />
-            <select onInputChange={handleCategoryChange}>
-              <option value="Unit 1">Unit 1: JS Fundamentals</option>
-              <option value="Unit 2">
+              />
+            <select onChange={handleCategoryChange} defaultValue="1">
+              <option value="1">Unit 1: JS Fundamentals</option>
+              <option value="2">
                 Unit 2: Data Structures and Algorithms
               </option>
-              <option value="Unit 3">Unit 3: Algorithms</option>
-              <option value="Unit 4">Unit 4 Snake</option>
-              <option value="Unit 5">Unit 5: React</option>
-              <option value="Unit 6">Unit 6: Redux</option>
-              <option value="Unit 7">Unit 7: AJAX</option>
-              <option value="Unit 8">Unit 8: Node</option>
-              <option value="Unit 9">Unit 9: Express</option>
-              <option value="Unit 10">Unit 10: Databases</option>
-              <option value="Unit 11">Unit 11: Authentication</option>
-              <option value="Unit 12">Unit 12: Testing</option>
-              <option value="Unit 13">Unit 13: Build Tools and Webpack</option>
+              <option value="3">Unit 3: Algorithms</option>
+              <option value="4">Unit 4 Snake</option>
+              <option value="5">Unit 5: React</option>
+              <option value="6">Unit 6: Redux</option>
+              <option value="7">Unit 7: AJAX</option>
+              <option value="8">Unit 8: Node</option>
+              <option value="9">Unit 9: Express</option>
+              <option value="10">Unit 10: Databases</option>
+              <option value="11">Unit 11: Authentication</option>
+              <option value="12">Unit 12: Testing</option>
+              <option value="13">Unit 13: Build Tools and Webpack</option>
               <option value="Other">Other</option>
             </select>
-            <button type="submit">Submit</button>
+            {/* <Link to="/main"> */}
+              <button type="submit">Submit</button>
+            {/* </Link> */}
           </form>
         </div>
       </div>
     );
-  
 }
 
 export default Modal;
